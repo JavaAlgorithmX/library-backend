@@ -28,8 +28,8 @@ public class Book {
     @JsonIgnoreProperties("bookList")
     private List<Author> authorList = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "bookList", cascade = CascadeType.MERGE)
-    @JsonIgnoreProperties("bookList")
+    @ManyToMany(mappedBy = "books", cascade = CascadeType.MERGE)
+    @JsonIgnoreProperties("books")
     private List<Genre> genreList = new ArrayList<>();
 
     @OneToMany(mappedBy = "book")

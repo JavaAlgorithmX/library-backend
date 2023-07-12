@@ -3,9 +3,11 @@ package com.jxl.springboot.LibraryMS.service;
 import com.jxl.springboot.LibraryMS.Entity.Author;
 import com.jxl.springboot.LibraryMS.Entity.Book;
 import com.jxl.springboot.LibraryMS.Entity.BookCopy;
+import com.jxl.springboot.LibraryMS.Entity.Genre;
 import com.jxl.springboot.LibraryMS.repository.AuthorRepository;
 import com.jxl.springboot.LibraryMS.repository.BookCopyRepository;
 import com.jxl.springboot.LibraryMS.repository.BookRepository;
+import com.jxl.springboot.LibraryMS.repository.GenreRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,10 +26,16 @@ public class BookService {
     @Autowired
     private BookCopyRepository bookCopyRepository;
 
+    @Autowired
+    private GenreRepository genreRepository;
+
     @Transactional
     public Book saveBookWithAuthor(Book book) {
         List<Author> authors = book.getAuthorList();
         authorRepository.saveAll(authors);
+        List<Genre> genres = book.getGenreList();
+        genreRepository.saveAll(genres);
+
         // Save the book entity
         Book dbBook = bookRepository.save(book);
         // Set the book in each author entity
@@ -36,6 +44,10 @@ public class BookService {
         }
         // Save the updated author entities
         authorRepository.saveAll(authors);
+
+        for (Genre genre : genres) {
+            genre.getBooks().add(book);
+        }
         return dbBook;
     }
     @Transactional

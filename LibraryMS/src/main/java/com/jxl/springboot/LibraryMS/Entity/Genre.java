@@ -1,7 +1,9 @@
 package com.jxl.springboot.LibraryMS.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,8 +18,14 @@ public class Genre {
     private String name;
 
     //Mappings
-    @ManyToMany
-    private List<Book> bookList;
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "book_genre",
+            joinColumns = @JoinColumn(name = "genre_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+    @JsonIgnoreProperties("genreList")
+    private List<Book> books = new ArrayList<>();
 
 
 //Constructor
@@ -46,6 +54,13 @@ public class Genre {
         this.name = name;
     }
 
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
     //To String
 
     @Override

@@ -3,6 +3,7 @@ package com.jxl.springboot.LibraryMS.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,9 +25,8 @@ public class Publisher {
     private String dateAdded;
 
     //Mapping
-    @OneToMany(mappedBy = "publisher")
-    @JoinColumn(name = "publisher_id")
-    private List<Book> bookList;
+    @OneToMany(mappedBy = "publisher",cascade = CascadeType.MERGE)
+    private List<Book> bookList = new ArrayList<>();
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "address")
     private Address address;

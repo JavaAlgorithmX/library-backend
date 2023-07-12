@@ -22,6 +22,7 @@ public class Book {
 
     //Mappings
     @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "publisher_id")
     private Publisher publisher;
     @ManyToMany(cascade = CascadeType.MERGE)
     @JsonIgnoreProperties("bookList")

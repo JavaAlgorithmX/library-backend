@@ -1,6 +1,6 @@
 package com.jxl.springboot.LibraryMS.Entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -28,6 +28,7 @@ public class Author {
     @Column(name = "date_added")
     private String dateAdded;
 
+    //Mappings
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "address")
     private Address address;
